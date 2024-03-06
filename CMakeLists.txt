@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(misc_utils)
+
+set(CMAKE_CXX_STANDARD 20)
+
+
+aux_source_directory(src/FileReaderImpl READER_IMPL)
+aux_source_directory(src CURRENT_SRC)
+
+add_library(${PROJECT_NAME} STATIC ${CURRENT_SRC} ${READER_IMPL})
+
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_include_directories(${PROJECT_NAME} PRIVATE include/Yo include_private)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE PRIVATE _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING)
+
+target_compile_options(${PROJECT_NAME} PRIVATE PRIVATE "$<$<C_COMPILER_ID:MSVC>:/utf-8>" "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
