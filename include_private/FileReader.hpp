@@ -40,13 +40,13 @@ namespace Yo::File {
     concept is_read_func = is_template_of<MakeFunctional, T>::value;
 
     template <class T>
-    size_t __Read(std::ifstream& file, T& args, size_t file_size) {
+    size_t __Read(std::ifstream& file, T& args, [[maybe_unused]] size_t file_size) {
         file.read(reinterpret_cast<char*>(&args), sizeof(args));
         return sizeof(T);
     }
 
     template <readable T>
-    size_t __Read(std::ifstream& file, T& args, size_t file_size) {
+    size_t __Read(std::ifstream& file, T& args, [[maybe_unused]] size_t file_size) {
         if (args.data()) {
             file.read(reinterpret_cast<char*>(args.data()), args.size());
         } else {
@@ -79,7 +79,7 @@ namespace Yo::File {
 
     template <class T>
         requires std::is_same_v<std::decay_t<T>, SkipSize>
-    size_t __Read(std::ifstream& file, T&& args, size_t file_size) {
+    size_t __Read(std::ifstream& file, T&& args, [[maybe_unused]] size_t file_size) {
         file.seekg(args._size, std::ios::cur);
         return args._size;
     }
