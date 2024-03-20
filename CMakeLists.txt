@@ -15,7 +15,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE include/Yo include_private)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING)
 
-target_compile_options(${PROJECT_NAME} PRIVATE
+target_compile_options(${PROJECT_NAME} PUBLIC
     "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
     "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
     "$<$<C_COMPILER_ID:MSVC>:/W4>"
