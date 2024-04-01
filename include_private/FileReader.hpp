@@ -122,6 +122,9 @@ namespace Yo::File {
         }
         file.seekg(0, std::ios::end);
         const auto file_size = static_cast<size_t>(file.tellg());
+        if (file_size <=0) {
+            return false;
+        }
         file.seekg(0, std::ios::beg);
         size_t size_of_read = 0;
 
