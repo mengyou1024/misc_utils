@@ -116,7 +116,7 @@ namespace Yo::File {
 
     template <class... Args>
     bool ReadFile(const std::wstring& _fileName, Args&&... args) {
-        std::ifstream file(_fileName, std::ios::binary | std::ios::in);
+        std::ifstream file(_fileName.c_str(), std::ios::binary | std::ios::in);
         if (!file.is_open()) {
             return false;
         }

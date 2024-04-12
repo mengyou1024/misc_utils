@@ -1,5 +1,6 @@
 #include <Yo/File>
 #include <Yo/Types>
+#include <Yo/Y_Algorithm>
 #include <gtest/gtest.h>
 #include <memory>
 #include <utility>
@@ -29,7 +30,7 @@ TEST(File, type_traits) {
 
 TEST(File, read_file) {
     using namespace Yo::File;
-    auto                 fileName = Yo::Types::WStringFromString("testRead");
+    auto                 fileName = Yo::Types::WStringFromString("template/testRead");
     std::vector<uint8_t> raw      = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     std::vector<uint8_t> data;
     data.resize(10);
@@ -64,4 +65,17 @@ TEST(File, read_file) {
     EXPECT_EQ(stru.a, 0x03020100);
     EXPECT_EQ(stru.b, 0x07060504);
     EXPECT_EQ(stru.c, 0x0908);
+}
+
+TEST(algorithm, lzw) {
+    using namespace Yo::File;
+    using namespace Yo::algorithm::lzw;
+    std::vector<uint8_t> raw;
+    raw.resize(10);
+    EXPECT_TRUE(ReadFile(L"template/testRead", raw));
+    auto compressed = lzw_compress(raw.data(), raw.size());
+    EXPECT_TRUE(compressed.has_value());
+    auto decompressed = lzw_decompress(compressed->data(), compressed->size());
+    EXPECT_TRUE(decompressed.has_value());
+    EXPECT_TRUE(std::equal(raw.begin(), raw.end(), decompressed->begin(), decompressed->end()));
 }

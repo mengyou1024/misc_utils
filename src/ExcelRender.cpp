@@ -23,7 +23,7 @@ namespace Yo::File::Render::Excel {
                 auto                      val = doc.read(r, c);
                 if (val.isValid()) {
                     auto res = reg.match(val.toString());
-                    if (res.hasCaptured(1)) {
+                    if (!res.captured(1).isEmpty()) {
                         auto rawStr      = res.captured(1);
                         auto reolacedStr = val.toString().replace(QString("${%1}").arg(rawStr), data.value(res.captured(1)).toString());
                         doc.write(r, c, reolacedStr);

@@ -4,14 +4,23 @@ project(misc_utils)
 
 set(CMAKE_CXX_STANDARD 20)
 
-
-aux_source_directory(src/FileReaderImpl READER_IMPL)
 aux_source_directory(src CURRENT_SRC)
 
-add_library(${PROJECT_NAME} STATIC ${CURRENT_SRC} ${READER_IMPL})
+add_library(${PROJECT_NAME}
+    STATIC
+    ${CURRENT_SRC}
+    src/algorithm/lzw.cpp
+    src/algorithm/_lzw.cpp
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_include_directories(${PROJECT_NAME} PRIVATE include/Yo include_private)
+target_include_directories(
+    ${PROJECT_NAME}
+    PRIVATE
+    include/Yo
+    include_private
+    include_private/algorithm
+)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING)
 

@@ -16,7 +16,14 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(.. UniLib)
 add_executable(unit_tests test_file.cpp)
 target_link_libraries(unit_tests PRIVATE gtest_main misc_utils)
-add_custom_command(TARGET unit_tests PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/testRead ${CMAKE_BINARY_DIR}/testRead)
+add_custom_command(TARGET unit_tests PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${CMAKE_SOURCE_DIR}/template ${CMAKE_BINARY_DIR}/template)
 
 include(GoogleTest)
 gtest_discover_tests(unit_tests PROPERTIES LABELS "File" DISCOVERY_TIMEOUT 240)
+
+target_compile_options(unit_tests PUBLIC
+    "$<$<C_COMPILER_ID:MSVC>:/utf-8>"
+    "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+    "$<$<C_COMPILER_ID:MSVC>:/W4>"
+    "$<$<CXX_COMPILER_ID:MSVC>:/W4>"
+)
