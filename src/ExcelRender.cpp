@@ -19,16 +19,20 @@ namespace Yo::File::Render::Excel {
         int rows = doc.dimension().rowCount();
         for (int r = 1; r <= rows; r++) {
             for (int c = 1; c <= cols; c++) {
-                static QRegularExpression reg(R"(\$\{(.+)\})");
-                auto                      val = doc.read(r, c);
-                if (val.isValid()) {
-                    auto res = reg.match(val.toString());
-                    if (!res.captured(1).isEmpty()) {
-                        auto rawStr      = res.captured(1);
-                        auto reolacedStr = val.toString().replace(QString("${%1}").arg(rawStr), data.value(res.captured(1)).toString());
-                        doc.write(r, c, reolacedStr);
-                        qDebug(TAG) << res.captured(1) << "---->" << data.value(res.captured(1));
+                static QRegularExpression reg(R"(\$\{(.+?)\})");
+                auto                      val          = doc.read(r, c);
+                auto                      iterator     = reg.globalMatch(val.toString());
+                QString                   relocatedStr = val.toString();
+                while (iterator.hasNext()) {
+                    auto match = iterator.next();
+                    if (!match.captured(1).isEmpty()) {
+                        auto rawStr  = match.captured(1);
+                        relocatedStr = relocatedStr.replace(QString("${%1}").arg(rawStr), data.value(match.captured(1)).toString());
+                        qDebug(TAG) << match.captured(1) << "---->" << data.value(match.captured(1));
                     }
+                }
+                if (relocatedStr != val.toString()) {
+                    doc.write(r, c, relocatedStr);
                 }
             }
         }
