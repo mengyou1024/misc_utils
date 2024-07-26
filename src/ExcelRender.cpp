@@ -2,6 +2,7 @@
 
 #if __has_include("xlsxdocument.h") && __has_include("QtCore")
 
+    #include <QDebug>
     #include <QLoggingCategory>
     #include <QRegularExpression>
     #include <QVariant>
@@ -12,7 +13,7 @@ namespace Yo::File::Render::Excel {
     bool Render(const QString &_template, const QString &output, const QVariantMap &data) {
         QXlsx::Document doc(_template);
         if (!doc.load()) {
-            qWarning(TAG) << "open template:" << _template << "error!";
+            qCWarning(TAG) << "open template:" << _template << "error!";
             return false;
         }
         int cols = doc.dimension().columnCount();
@@ -28,7 +29,7 @@ namespace Yo::File::Render::Excel {
                     if (!match.captured(1).isEmpty()) {
                         auto rawStr  = match.captured(1);
                         relocatedStr = relocatedStr.replace(QString("${%1}").arg(rawStr), data.value(match.captured(1)).toString());
-                        qDebug(TAG) << match.captured(1) << "---->" << data.value(match.captured(1));
+                        qCDebug(TAG) << match.captured(1) << "---->" << data.value(match.captured(1));
                     }
                 }
                 if (relocatedStr != val.toString()) {
@@ -37,7 +38,7 @@ namespace Yo::File::Render::Excel {
             }
         }
         if (!doc.saveAs(output)) {
-            qDebug(TAG) << "save file:" << output << "error!";
+            qCWarning(TAG).noquote() << "save file:" << output << "error!";
             return false;
         }
         return true;
