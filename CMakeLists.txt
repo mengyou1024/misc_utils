@@ -5,10 +5,13 @@ project(misc_utils)
 set(CMAKE_CXX_STANDARD 20)
 
 aux_source_directory(src CURRENT_SRC)
+file(GLOB_RECURSE CURRENT_INC "include/*" "include_private/*.hpp" "include_private/*.h")
+
 
 add_library(${PROJECT_NAME}
     STATIC
     ${CURRENT_SRC}
+    ${CURRENT_INC}
     src/algorithm/lzw.cpp
     src/algorithm/_lzw.cpp
 )
