@@ -24,7 +24,7 @@ namespace Yo::Thread {
     void TaskQueue::AddTask(std::function<void(void)> func, std::string id, bool rm_same_id) {
         std::unique_lock lock(mTaskQueueMutex);
         bool             find_same = false;
-        for (int i = 0; i < mTaskQueue.size(); i++) {
+        for (int i = 0; i < std::ssize(mTaskQueue); i++) {
             auto &[_task, _id] = mTaskQueue.front();
             if (rm_same_id && _id == id) {
                 _task     = func;
