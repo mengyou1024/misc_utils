@@ -23,7 +23,7 @@ namespace Yo::Thread {
          * @param id 对象ID
          * @param rm_same_id 是否覆盖相同ID
          */
-        void AddTask(std::function<void(void)> func, std::string id = {}, bool rm_same_id = false);
+        void AddTask(std::function<void(void)> func, const std::string& id = {}, bool rm_same_id = false);
 
         /**
          * @brief 添加任务到全局队列
@@ -31,7 +31,7 @@ namespace Yo::Thread {
          * @param id 对象ID
          * @param rm_same_id 是否覆盖相同ID
          */
-        static void AddTaskToGlobalQueue(std::function<void(void)> func, std::string id = {}, bool rm_same_id = false);
+        static void AddTaskToGlobalQueue(std::function<void(void)> func, const std::string& id = {}, bool rm_same_id = false);
 
     private:
         CV_ANY      mCVNotify       = {};

@@ -5,10 +5,10 @@
 #include <type_traits>
 
 namespace Yo::Types {
-    std::string  StringFromWString(std::wstring str);
-    std::wstring WStringFromString(std::string str);
-    std::string  GB2312ToUtf8(std::string gb2312);
-    std::string  Utf8ToGB2312(std::string utf8);
+    std::string  StringFromWString(const std::wstring& str);
+    std::wstring WStringFromString(const std::string& str);
+    std::string  GB2312ToUtf8(const std::string& gb2312);
+    std::string  Utf8ToGB2312(const std::string& utf8);
     template <class T>
     constexpr T SwapBytes(T val)
         requires std::is_integral_v<T>

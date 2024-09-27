@@ -7,12 +7,12 @@
 
 namespace Yo::Types {
 
-    std::string StringFromWString(std::wstring str) {
+    std::string StringFromWString(const std::wstring& str) {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
         return converter.to_bytes(str);
     }
 
-    std::wstring WStringFromString(std::string str) {
+    std::wstring WStringFromString(const std::string& str) {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
         return converter.from_bytes(str);
     }
@@ -43,13 +43,13 @@ namespace Yo::Types {
         return len;
     }
 
-    std::string GB2312ToUtf8(std::string gb2312) {
+    std::string GB2312ToUtf8(const std::string& gb2312) {
         char buf[1024] = {};
         int  len       = GB2312ToUtf8(gb2312.c_str(), buf);
         return std::string(buf, len - 1);
     }
 
-    std::string Utf8ToGB2312(std::string utf8) {
+    std::string Utf8ToGB2312(const std::string& utf8) {
         char buf[1024] = {};
         int  len       = Utf8ToGB2312(utf8.c_str(), buf);
         return std::string(buf, len - 1);

@@ -1,6 +1,4 @@
 #include "TaskQueue.hpp"
-
-#include <condition_variable>
 #include <functional>
 #include <mutex>
 #include <queue>
@@ -21,7 +19,7 @@ namespace Yo::Thread {
         mThread.join();
     }
 
-    void TaskQueue::AddTask(std::function<void(void)> func, std::string id, bool rm_same_id) {
+    void TaskQueue::AddTask(std::function<void(void)> func, const std::string &id, bool rm_same_id) {
         std::unique_lock lock(mTaskQueueMutex);
         bool             find_same = false;
         for (int i = 0; i < std::ssize(mTaskQueue); i++) {
@@ -39,7 +37,7 @@ namespace Yo::Thread {
         mCVNotify.notify_one();
     }
 
-    void TaskQueue::AddTaskToGlobalQueue(std::function<void(void)> func, std::string id, bool rm_same_id) {
+    void TaskQueue::AddTaskToGlobalQueue(std::function<void(void)> func, const std::string &id, bool rm_same_id) {
         static TaskQueue gTaskQueue;
         gTaskQueue.AddTask(func, id, rm_same_id);
     }
