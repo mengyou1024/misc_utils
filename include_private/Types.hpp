@@ -11,18 +11,15 @@ namespace Yo::Types {
     std::string  Utf8ToGB2312(const std::string& utf8);
     template <class T>
     constexpr T SwapBytes(T val)
-        requires std::is_integral_v<T>
+        requires(std::is_integral_v<T> || std::is_floating_point_v<T>)
     {
-        if constexpr (sizeof(T) == 1) {
-            return val;
-        } else if constexpr (sizeof(T) == 2) {
-            return static_cast<T>(((val & 0xff) << 8) | ((val & 0xff00) >> 8));
-        } else if constexpr (sizeof(T) == 4) {
-            return static_cast<T>(((val & 0xff) << 24) | ((val & 0xff00) << 8) | ((val & 0xff0000) >> 8) | (val & 0xff000000) >> 24);
-        } else if constexpr (sizeof(T) == 8) {
-            return static_cast<T>(((val & 0xff) << 56) | ((val & 0xff00) << 40) | (val & 0xff0000) << 24 | ((val & 0xff000000) << 8) | ((val & 0xff00000000) >> 8) | (val & 0xff0000000000) >> 24);
-        } else {
-            static_assert(false, "Unsupported type");
+        T             result;
+        std::uint8_t* src = reinterpret_cast<std::uint8_t*>(&val);
+        std::uint8_t* dst = reinterpret_cast<std::uint8_t*>(&result);
+        for (size_t i = 0; i < sizeof(T); ++i) {
+            dst[i] = src[sizeof(T) - i - 1];
         }
+        return result;
     }
+
 } // namespace Yo::Types

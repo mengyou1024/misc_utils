@@ -79,3 +79,11 @@ TEST(algorithm, lzw) {
     EXPECT_TRUE(decompressed.has_value());
     EXPECT_TRUE(std::equal(raw.begin(), raw.end(), decompressed->begin(), decompressed->end()));
 }
+
+TEST(Types, SwapBytes) {
+    using namespace Yo::Types;
+    EXPECT_EQ(SwapBytes((uint8_t)0x01), (uint8_t)0x01);
+    EXPECT_EQ(SwapBytes((uint16_t)0x0102), (uint16_t)0x0201);
+    EXPECT_EQ(SwapBytes(0x01020304), 0x04030201);
+    EXPECT_EQ(SwapBytes(0x0102030405060708), 0x0807060504030201);
+}
