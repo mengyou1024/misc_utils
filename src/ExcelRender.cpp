@@ -11,6 +11,11 @@ static Q_LOGGING_CATEGORY(TAG, "Render.Excel");
 
 namespace Yo::File::Render::Excel {
     bool Render(const QString &_template, const QString &output, const QVariantMap &data) {
+        auto output_dir = QFileInfo(output).absoluteDir();
+        if (!output_dir.exists()) {
+            output_dir.mkpath(QFileInfo(output).absolutePath());
+        }
+
         QXlsx::Document doc(_template);
         if (!doc.load()) {
             qCWarning(TAG) << "open template:" << _template << "error!";
