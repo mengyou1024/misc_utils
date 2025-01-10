@@ -12,7 +12,7 @@ namespace Yo::File {
     struct MakeStructSub {
         void*  mStart = nullptr;
         size_t mSize  = 0;
-        explicit MakeStructSub(void* start, void* end, int lastElementSize = 4) {
+        explicit MakeStructSub(void* start, void* end, int lastElementSize) {
             mStart = start;
             mSize  = (reinterpret_cast<char*>(end) - reinterpret_cast<char*>(start)) + lastElementSize;
         }
@@ -43,13 +43,12 @@ namespace Yo::File {
         explicit MakeFunctional(std::function<T&(size_t)> fn) :
         _fn(fn) {}
         explicit MakeFunctional(std::function<T&()> fn) :
-        _fn([fn](size_t) -> T& { return fn(); }) {
-        }
+        _fn([fn](size_t) -> T& { return fn(); }) {}
         std::function<T&(size_t)> _fn;
     };
 
     struct SkipSize {
-        SkipSize(size_t sz) :
+        constexpr explicit SkipSize(size_t sz) :
         _size(sz) {}
         size_t _size = 0;
     };
