@@ -8,7 +8,9 @@ namespace Yo::Types {
     std::string  StringFromWString(const std::wstring& str);
     std::wstring WStringFromString(const std::string& str);
     std::string  GB2312ToUtf8(const std::string& gb2312);
+    std::wstring GB2312ToUtf8(const std::wstring& gb2312);
     std::string  Utf8ToGB2312(const std::string& utf8);
+    std::wstring Utf8ToGB2312(const std::wstring& utf8);
     template <class T>
     constexpr T SwapBytes(T val)
         requires(std::is_integral_v<T> || std::is_floating_point_v<T>)

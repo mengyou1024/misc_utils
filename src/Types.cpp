@@ -49,10 +49,22 @@ namespace Yo::Types {
         return std::string(buf, len - 1);
     }
 
+    std::wstring GB2312ToUtf8(const std::wstring& gb2312) {
+        char buf[1024] = {};
+        int  len       = GB2312ToUtf8(StringFromWString(gb2312).c_str(), buf);
+        return WStringFromString(std::string(buf, len - 1));
+    }
+
     std::string Utf8ToGB2312(const std::string& utf8) {
         char buf[1024] = {};
         int  len       = Utf8ToGB2312(utf8.c_str(), buf);
         return std::string(buf, len - 1);
+    }
+
+    std::wstring Utf8ToGB2312(const std::wstring& utf8) {
+        char buf[1024] = {};
+        int  len       = Utf8ToGB2312(StringFromWString(utf8).c_str(), buf);
+        return WStringFromString(std::string(buf, len - 1));
     }
 
 } // namespace Yo::Types
