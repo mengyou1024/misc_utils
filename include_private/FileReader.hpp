@@ -12,7 +12,7 @@ namespace Yo::File {
     struct MakeStructSub {
         void*  mStart = nullptr;
         size_t mSize  = 0;
-        constexpr explicit MakeStructSub(void* start, void* end, int lastElementSize) :
+        explicit MakeStructSub(void* start, void* end, int lastElementSize) :
         mStart(start),
         mSize((reinterpret_cast<char*>(end) - reinterpret_cast<char*>(start)) + lastElementSize) {}
 
