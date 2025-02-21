@@ -5,6 +5,6 @@
     #include <xlsxdocument.h>
 
 namespace Yo::File::Render::Excel {
-    bool Render(const QString &_template, const QString &output, const QVariantMap &data);
+    bool Render(const QString &_template, const QString &output, const QVariantMap &data, const QMap<QString, QImage> &images);
 } // namespace Yo::File::Render::Excel
 #endif
